@@ -12,7 +12,7 @@ php artisan key:generate
 npm run dev
 ```
 
-Het `php artisan serve`commando moet draaien in een andere terminal.
+Het `php artisan serve`commando moet draaien in een aparte terminal.
 
 De volgende features moeten werken in je eind resultaat:
 - Gebruik de REST API om data op te halen/versturen
