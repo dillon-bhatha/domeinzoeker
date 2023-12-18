@@ -67,4 +67,4 @@ Dit kan een response body voorstellen:
 ```
 
 ## Database
-Je moet zelf een database regelen. Het liefst met [MySQL](https://www.mysql.com/) , omdat wij dit voor onze projecten veel gebruiken. De structuur van de database mag je zelf bedenken. Zorg er wel voor dat de subtotaal en de btw gezien kan worden op de bestellingen pagina.
+Je moet zelf een database regelen. Het liefst met [MySQL](https://www.mysql.com/), omdat wij dit voor onze projecten veel gebruiken. De structuur van de database mag je zelf bedenken. Zorg er wel voor dat de subtotaal en de btw gezien kan worden op de bestellingen pagina.
