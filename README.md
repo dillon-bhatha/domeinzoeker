@@ -2,18 +2,6 @@
 
 Welkom bij de back-end opdracht. In deze opdracht moet je een domein zoeker maken. Een [end-user](https://en.wikipedia.org/wiki/End_user) moet een domein kunnen zoeken en een domein kunnen toevoegen aan zijn/haar winkelmand. Het designen is bij deze opdracht niet van belang. Mocht je echter wel jouw design skills willen laten zien, vooral doen \:)
 
-## Get started
-Clone dit project op je computer en voer de volgende commando's uit om het project lokaal te draaien:
-
-```
-composer install
-npm install
-php artisan key:generate
-npm run dev
-```
-
-Het `php artisan serve`commando moet draaien in een andere terminal.
-
 De volgende features moeten werken in je eind resultaat:
 - Gebruik de REST API om data op te halen/versturen
 - Laat tenminste `10` verschillende tld's zien met prijzen
