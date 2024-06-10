@@ -1,6 +1,6 @@
 <p align="center"><h1>Minty Stage opdracht Domein Zoeker</h1></p>
 
-Welkom bij de back-end opdracht. In deze opdracht moet je een domein zoeker maken. Een [end-user](https://en.wikipedia.org/wiki/End_user) moet een domein kunnen zoeken en een domein kunnen toevoegen aan zijn/haar winkelmand. Het designen is bij deze opdracht niet van belang. Mocht je echter wel jouw design skills willen laten zien, vooral doen \:)
+Welkom bij de back-end opdracht. In deze opdracht ga je een 'Domein zoeker' maken. Een [end-user](https://en.wikipedia.org/wiki/End_user) moet een domein kunnen zoeken en een domein kunnen toevoegen aan zijn/haar winkelmand. Het design is bij deze opdracht niet van belang. Mocht je echter wel jouw design skills willen laten zien, mag dat natuurlijk altijd! :)
 
 De volgende features moeten werken in je eind resultaat:
 - Gebruik de REST API om data op te halen/versturen
