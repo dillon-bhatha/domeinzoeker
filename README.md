@@ -21,7 +21,7 @@ Om te connecteren met de API moet je de header `Authorization` toevoegen:
 Authorization: Basic 072dee999ac1a7931c205814c97cb1f4d1261559c0f6cd15f2a7b27701954b8d
 ```
 
-Je kan nu de route `POST /domains/op/search` gebruiken
+Je kan nu de route `POST /domains/op/search?with_price=true` gebruiken
 Hierin moet je een request body ([json](https://www.json.org/)) meegeven:
 ```json
 [
