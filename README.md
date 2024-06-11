@@ -15,10 +15,10 @@ De volgende features moeten werken in je eind resultaat:
 
 
 ## API
-De base url is `https://dev.api.mintycloud.nl/api/v2`
+De base url is `https://dev.api.mintycloud.nl/api/v2.1`
 Om te connecteren met de API moet je de header `Authorization` toevoegen:
 ```
-Authorization: Basic f36a4c78c8b7f3782183cda40717f1d8e7d1981909fdd4c87c14e227548e11ed
+Authorization: Basic 072dee999ac1a7931c205814c97cb1f4d1261559c0f6cd15f2a7b27701954b8d
 ```
 
 Je kan nu de route `POST /domains/op/search` gebruiken
