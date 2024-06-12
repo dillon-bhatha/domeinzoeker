@@ -4,7 +4,7 @@ Welkom bij de back-end opdracht. In deze opdracht ga je een 'Domein zoeker' make
 
 De volgende features moeten werken in je eind resultaat:
 - Gebruik de REST API om data op te halen/versturen
-- Laat tenminste `10` verschillende tld's zien met prijzen
+- Laat tenminste `10` verschillende tld's zien met prijzen (op basis van end-user input)
 - In de web pagina aangeven of het domein beschikbaar is of niet.
 - Maak een winkelwagen waar domeinen aan toegevoegd kunnen worden
     - Wanneer [tld](https://www.semrush.com/blog/top-level-domains/) niet beschikbaar is moet het niet mogelijk zijn om die toe te kunnen voegen aan de winkelmand
