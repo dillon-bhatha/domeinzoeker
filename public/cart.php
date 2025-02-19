@@ -29,28 +29,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winkelmand</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <h1>Winkelmand</h1>
 
-<?php if (!empty($_SESSION['cart'])): ?>
-    <ul>
-        <?php foreach ($_SESSION['cart'] as $index => $item): ?>
-            <li>
-                <?= htmlspecialchars($item['domain_name']) . '.' . htmlspecialchars($item['tld']) ?> - 
-                €<?= number_format((float)$item['price'], 2, ',', '.') ?>
-                <form method="POST" action="cart.php" style="display:inline;">
-                    <input type="hidden" name="remove_index" value="<?= $index ?>">
-                    <button type="submit">Verwijderen</button>
-                </form>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-    <a href="checkout.php">Ga naar de checkout</a>
-<?php else: ?>
-    <p>Je winkelmand is leeg.</p>
-<?php endif; ?>
+<div class="content">
+    <?php if (!empty($_SESSION['cart'])): ?>
+        <div class="cart-list">
+            <ul>
+                <?php foreach ($_SESSION['cart'] as $index => $item): ?>
+                    <li>
+                        <?= htmlspecialchars($item['domain_name']) . '.' . htmlspecialchars($item['tld']) ?> - 
+                        €<?= number_format((float)$item['price'], 2, ',', '.') ?>
+                        <form method="POST" action="cart.php" style="display:inline;">
+                            <input type="hidden" name="remove_index" value="<?= $index ?>">
+                            <button type="submit">Verwijderen</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="links">
+            <a href="checkout.php">Ga naar de checkout</a>
+        </div>
+    <?php else: ?>
+        <div class="empty-cart">
+            Je winkelmand is leeg.
+        </div>
+    <?php endif; ?>
+
+    <div class="links">
+        <a href="index.php">Terug naar home</a>
+    </div>
+</div>
 
 </body>
 </html>

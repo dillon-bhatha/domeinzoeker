@@ -1,12 +1,13 @@
 <?php
-$host = 'localhost';
-$dbname = 'domeinwinkel';
-$username = 'root';
+$servername = "localhost";
+$username = "root"; // Standaard bij XAMPP of Laragon
+$password = ""; // Laat leeg als je geen wachtwoord hebt ingesteld
+$dbname = "domeinzoeker"; // Vervang dit met je echte database naam
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Verbinding mislukt: " . $e->getMessage());
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controleer de verbinding
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

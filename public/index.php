@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
     $tld = $_POST['tld'];
 
     if (!empty($domain_name) && !empty($tld)) {
-        $domains = [['name' => $domain_name, 'extension' => $tld]];
+        $domains = [['name' => $domain_name, 'extension' => $tld]]; 
         $data_json = json_encode($domains);
 
         $ch = curl_init();
@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domeinzoeker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -62,31 +63,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
 </form>
 
 <?php if ($domainInfo): ?>
-    <h2>Resultaten voor <?= htmlspecialchars($domain_name) ?>.<?= htmlspecialchars($tld) ?></h2>
-    <p><strong>Status:</strong> <?= ucfirst($domainInfo[0]['status']) ?></p>
     <?php
-    $price = 'Onbekend';
-    if (isset($domainInfo[0]['price']['product']['price']) && is_numeric($domainInfo[0]['price']['product']['price'])) {
-        $price = number_format((float)$domainInfo[0]['price']['product']['price'], 2, ',', '.');
+    if (isset($domainInfo[0]['domain'])) {
+        $full_domain = $domainInfo[0]['domain'];
+        $domain_parts = explode('.', $full_domain);
+        $domain_name = $domain_parts[0];
+        $tld = isset($domain_parts[1]) ? $domain_parts[1] : '';
+
+        $price = 'Onbekend';
+        if (isset($domainInfo[0]['price']['product']['price']) && is_numeric($domainInfo[0]['price']['product']['price'])) {
+            $price = number_format((float)$domainInfo[0]['price']['product']['price'], 2, ',', '.');
+        }
     }
     ?>
-    <p><strong>Prijs:</strong> €<?= $price ?></p>
 
-    <?php if ($domainInfo[0]['status'] == 'free'): ?>
-        <form method="POST" action="cart.php">
-            <input type="hidden" name="domain_name" value="<?= htmlspecialchars($domain_name) ?>">
-            <input type="hidden" name="tld" value="<?= htmlspecialchars($tld) ?>">
-            <input type="hidden" name="price" value="<?= $price ?>">
-            <input type="hidden" name="status" value="<?= $domainInfo[0]['status'] ?>">
-            <button type="submit">Voeg toe aan winkelmand</button>
-        </form>
-    <?php else: ?>
-        <p>Dit domein is niet beschikbaar.</p>
-    <?php endif; ?>
+    <div class="result">
+        <h2>Resultaten voor <?= htmlspecialchars($domain_name) ?>.<?= htmlspecialchars($tld) ?></h2>
+        <p><strong>Status:</strong> <?= ucfirst($domainInfo[0]['status']) ?></p>
+        <p><strong>Domeinnaam:</strong> <?= htmlspecialchars($domain_name) ?></p>
+        <p><strong>TLD:</strong> <?= htmlspecialchars($tld) ?></p>
+        <p><strong>Prijs:</strong> €<?= $price ?></p>
+
+        <?php if ($domainInfo[0]['status'] == 'free'): ?>
+            <form method="POST" action="cart.php">
+                <input type="hidden" name="domain_name" value="<?= htmlspecialchars($domain_name) ?>">
+                <input type="hidden" name="tld" value="<?= htmlspecialchars($tld) ?>">
+                <input type="hidden" name="price" value="<?= $price ?>">
+                <input type="hidden" name="status" value="<?= $domainInfo[0]['status'] ?>">
+                <button type="submit">Voeg toe aan winkelmand</button>
+            </form>
+        <?php else: ?>
+            <p>Dit domein is niet beschikbaar.</p>
+        <?php endif; ?>
+    </div>
 <?php endif; ?>
 
+<a href="orders.php">Overzicht</a>
+
 <?php if ($errorMessage): ?>
-    <p style="color: red;"> <?= $errorMessage ?> </p>
+    <p class="error"><?= $errorMessage ?></p>
 <?php endif; ?>
 
 </body>

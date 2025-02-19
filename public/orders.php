@@ -1,10 +1,15 @@
 <?php
 include '../includes/database.php';
 
-$sql = "SELECT * FROM orders";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$orders = $stmt->fetchAll();
+try {
+    $sql = "SELECT domain_name, tld, price, tax, total_price, status, created_at FROM orders ORDER BY created_at DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $orders = $result->fetch_all(MYSQLI_ASSOC);
+} catch (Exception $e) {
+    die("Fout bij het ophalen van bestellingen: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +18,20 @@ $orders = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bestellingen</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 
@@ -24,22 +43,34 @@ $orders = $stmt->fetchAll();
             <th>Domeinnaam</th>
             <th>TLD</th>
             <th>Prijs</th>
+            <th>BTW (21%)</th>
+            <th>Totaal</th>
             <th>Status</th>
             <th>Datum</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($orders as $order): ?>
+        <?php if (!empty($orders)): ?>
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?= htmlspecialchars($order['domain_name']) . '.' . htmlspecialchars($order['tld']) ?></td>
+                    <td><?= htmlspecialchars($order['tld']) ?></td>
+                    <td>€<?= number_format((float)$order['price'], 2, ',', '.') ?></td>
+                    <td>€<?= number_format((float)$order['tax'], 2, ',', '.') ?></td>
+                    <td>€<?= number_format((float)$order['total_price'], 2, ',', '.') ?></td>
+                    <td><?= ucfirst(htmlspecialchars($order['status'])) ?></td>
+                    <td><?= htmlspecialchars($order['created_at']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
             <tr>
-                <td><?= $order['domain_name'] . '.' . $order['tld'] ?></td>
-                <td><?= $order['tld'] ?></td>
-                <td>€<?= number_format((float)$order['price'], 2, ',', '.') ?></td>
-                <td><?= ucfirst($order['status']) ?></td>
-                <td><?= $order['created_at'] ?></td>
+                <td colspan="7">Geen bestellingen gevonden.</td>
             </tr>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </tbody>
 </table>
+
+<a href="index.php">Terug naar home</a>
 
 </body>
 </html>

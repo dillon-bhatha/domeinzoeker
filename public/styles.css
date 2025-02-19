@@ -1,0 +1,301 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+h1, h2 {
+    text-align: center;
+    color: #0056b3;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+input[type="text"], select {
+    padding: 10px;
+    margin: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #004494;
+}
+.result {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.result p {
+    font-size: 18px;
+    margin: 8px 0;
+}
+.result p strong {
+    font-weight: bold;
+}
+.error {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+}
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #0056b3;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* cart.php styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+
+.cart-list {
+    background-color: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.cart-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-list li {
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-list button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-list button:hover {
+    background-color: #c0392b;
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links a {
+    font-size: 16px;
+    color: #0056b3;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.empty-cart {
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    color: #721c24;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* checkout.php styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+.order-summary {
+    background-color: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.order-summary p {
+    font-size: 18px;
+    margin: 8px 0;
+}
+.order-summary p strong {
+    font-weight: bold;
+}
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #004494;
+}
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+.links a {
+    font-size: 16px;
+    color: #0056b3;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.links a:hover {
+    text-decoration: underline;
+}
+.success-message {
+    background-color: #e0f7e0;
+    padding: 10px;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    color: #4caf50;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.error-message {
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    color: #721c24;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+.cart-list {
+    background-color: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.cart-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+.cart-list li {
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cart-list form {
+    margin: 0;
+}
+.cart-list button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.cart-list button:hover {
+    background-color: #c0392b;
+}
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+.links a {
+    font-size: 16px;
+    color: #0056b3;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.links a:hover {
+    text-decoration: underline;
+}
+.empty-cart {
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    color: #721c24;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}

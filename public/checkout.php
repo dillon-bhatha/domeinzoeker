@@ -1,52 +1,34 @@
 <?php
 session_start();
+include '../includes/database.php'; // Verbind met database
 
-$subTotal = 0;
-$taxRate = 0.21;
-
-if (isset($_SESSION['cart']) && is_array($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-    foreach ($_SESSION['cart'] as $item) {
-        echo '<pre>';
-        var_dump($item['price']);
-        echo '</pre>';
-
-        if (isset($item['price'])) {
-            $price = str_replace(',', '.', $item['price']);
-            if (is_numeric($price)) {
-                $subTotal += (float)$price;
-            }
-        }
-    }
-
-    $tax = $subTotal * $taxRate;
-    $total = $subTotal + $tax;
-} else {
-    $subTotal = 0;
-    $tax = 0;
-    $total = 0;
+// Zorg dat de winkelmand bestaat
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include '../includes/database.php';
+$subtotaal = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $subtotaal += floatval(str_replace(',', '.', $item['price']));
+}
+$btw = $subtotaal * 0.21;
+$totaal = $subtotaal + $btw;
+
+$orderPlaced = false;
+
+// Bestelling opslaan bij klikken op de knop
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order']) && !empty($_SESSION['cart'])) {
+    $stmt = $conn->prepare("INSERT INTO orders (domain_name, tld, price, tax, total_price, status) VALUES (?, ?, ?, ?, ?, 'pending')");
 
     foreach ($_SESSION['cart'] as $item) {
-        if (isset($item['price'])) {
-            $price = str_replace(',', '.', $item['price']);
-            if (is_numeric($price)) {
-                $sql = "INSERT INTO orders (domain_name, tld, price) VALUES (:domain_name, :tld, :price)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([
-                    'domain_name' => $item['domain_name'],
-                    'tld' => $item['tld'],
-                    'price' => (float)$price
-                ]);
-            }
-        }
+        $stmt->bind_param("ssddd", $item['domain_name'], $item['tld'], $item['price'], $btw, $totaal);
+        $stmt->execute();
     }
+    $stmt->close();
 
-    unset($_SESSION['cart']);
-
-    $_SESSION['order_success'] = true;
+    // Leeg de winkelmand na bestelling
+    $_SESSION['cart'] = [];
+    $orderPlaced = true;
 }
 ?>
 
@@ -56,52 +38,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        button {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <h1>Checkout</h1>
 
-<?php if (isset($_SESSION['order_success']) && $_SESSION['order_success']): ?>
-    <p style="color: green;"><strong>Succesvol besteld!</strong></p>
-    <?php unset($_SESSION['order_success']); ?>
-<?php endif; ?>
+<div class="content">
+    <?php if ($orderPlaced): ?>
+        <div class="success-message">
+            ✅ <strong>Bestelling succesvol geplaatst!</strong>
+        </div>
+    <?php elseif ($subtotaal > 0): ?>
+        <div class="order-summary">
+            <p><strong>Subtotaal:</strong> €<?= number_format($subtotaal, 2, ',', '.') ?></p>
+            <p><strong>BTW (21%):</strong> €<?= number_format($btw, 2, ',', '.') ?></p>
+            <p><strong>Totaal:</strong> €<?= number_format($totaal, 2, ',', '.') ?></p>
 
-<?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
-    <p><strong>Subtotaal:</strong> €<?= number_format($subTotal, 2, ',', '.') ?></p>
-    <p><strong>BTW (21%):</strong> €<?= number_format($tax, 2, ',', '.') ?></p>
-    <p><strong>Totaal:</strong> €<?= number_format($total, 2, ',', '.') ?></p>
+            <form method="POST">
+                <button type="submit" name="place_order">Bestelling plaatsen</button>
+            </form>
+        </div>
+    <?php else: ?>
+        <div class="error-message">
+            Je winkelmand is leeg.
+        </div>
+    <?php endif; ?>
 
-    <form method="POST" action="">
-        <button type="submit" class="btn-primary">Bestelling plaatsen</button>
-    </form>
-<?php else: ?>
-    <p>Je winkelmand is leeg.</p>
-<?php endif; ?>
-
-<button onclick="window.location.href='index.php';" class="btn-secondary">Terug naar Home</button>
-<button onclick="window.location.href='cart.php';" class="btn-secondary">Terug naar Winkelmand</button>
+    <div class="links">
+        <a href="index.php">Terug naar home</a>
+        <a href="cart.php">Terug naar winkelmand</a>
+    </div>
+</div>
 
 </body>
 </html>
