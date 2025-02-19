@@ -1,8 +1,7 @@
 <?php
 session_start();
-include '../includes/database.php'; // Verbind met database
+include '../includes/database.php';
 
-// Zorg dat de winkelmand bestaat
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -16,7 +15,6 @@ $totaal = $subtotaal + $btw;
 
 $orderPlaced = false;
 
-// Bestelling opslaan bij klikken op de knop
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order']) && !empty($_SESSION['cart'])) {
     $stmt = $conn->prepare("INSERT INTO orders (domain_name, tld, price, tax, total_price, status) VALUES (?, ?, ?, ?, ?, 'pending')");
 
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order']) && !em
     }
     $stmt->close();
 
-    // Leeg de winkelmand na bestelling
     $_SESSION['cart'] = [];
     $orderPlaced = true;
 }

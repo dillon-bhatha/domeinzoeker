@@ -13,27 +13,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
     $tld = $_POST['tld'];
 
     if (!empty($domain_name) && !empty($tld)) {
-        $domains = [['name' => $domain_name, 'extension' => $tld]]; 
-        $data_json = json_encode($domains);
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM orders WHERE domain_name = ? AND tld = ?");
+        $stmt->bind_param("ss", $domain_name, $tld);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Basic 072dee999ac1a7931c205814c97cb1f4d1261559c0f6cd15f2a7b27701954b8d",
-            "Content-Type: application/json"
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        $response = curl_exec($ch);
-        if (curl_errno($ch)) {
-            $errorMessage = 'Curl error: ' . curl_error($ch);
+        if ($count > 0) {
+            $errorMessage = "Dit domein bestaat al in je bestellingen.";
         } else {
-            $domainInfo = json_decode($response, true);
+            $domains = [['name' => $domain_name, 'extension' => $tld]];
+            $data_json = json_encode($domains);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                "Authorization: Basic 072dee999ac1a7931c205814c97cb1f4d1261559c0f6cd15f2a7b27701954b8d",
+                "Content-Type: application/json"
+            ]);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            $response = curl_exec($ch);
+            if (curl_errno($ch)) {
+                $errorMessage = 'Curl error: ' . curl_error($ch);
+            } else {
+                $domainInfo = json_decode($response, true);
+            }
+            curl_close($ch);
         }
-        curl_close($ch);
     } else {
         $errorMessage = 'Vul een domeinnaam en TLD in.';
     }
@@ -84,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
         <p><strong>TLD:</strong> <?= htmlspecialchars($tld) ?></p>
         <p><strong>Prijs:</strong> €<?= $price ?></p>
 
-        <?php if ($domainInfo[0]['status'] == 'free'): ?>
+        <?php if ($domainInfo[0]['status'] == 'free' && !$errorMessage): ?>
             <form method="POST" action="cart.php">
                 <input type="hidden" name="domain_name" value="<?= htmlspecialchars($domain_name) ?>">
                 <input type="hidden" name="tld" value="<?= htmlspecialchars($tld) ?>">
@@ -92,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['domain_name']) && isse
                 <input type="hidden" name="status" value="<?= $domainInfo[0]['status'] ?>">
                 <button type="submit">Voeg toe aan winkelmand</button>
             </form>
-        <?php else: ?>
+        <?php elseif ($domainInfo[0]['status'] != 'free'): ?>
             <p>Dit domein is niet beschikbaar.</p>
         <?php endif; ?>
     </div>
